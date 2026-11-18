@@ -1,7 +1,18 @@
 name: Unified Collector (auto-chain, dual token)
 
 on:
-  workflow_dispatch:      # فقط با اجرای دستی شروع می‌شود
+  schedule:
+    - cron: '0 */6 * * *'   # 平时每6小时自动运行一次
+  workflow_dispatch:
+    inputs:
+      auto_chain:
+        description: '是否开启15分钟高频连环运行？(平时选false，急需高频时选true)'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
 
 concurrency:
   group: collector-run
@@ -62,8 +73,8 @@ jobs:
       - name: Run collector
         env:
           GITHUB_TOKEN: ${{ steps.select-token.outputs.token }}
-          RUN_MODE: frequent
-          MAX_AGE_HOURS: 0.5
+          RUN_MODE: ${{ github.event.inputs.auto_chain == 'true' && 'frequent' || 'scheduled' }}
+          MAX_AGE_HOURS: ${{ github.event.inputs.auto_chain == 'true' && '0.5' || '6.5' }}
         run: python src/collector_git.py
 
       - name: Split joined proxy links
@@ -102,7 +113,7 @@ jobs:
           fi
 
       - name: Trigger next run
-        if: success()
+        if: success() && github.event.inputs.auto_chain == 'true'
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GH_TOKEN }}
@@ -111,5 +122,8 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               workflow_id: 'collector.yml',
-              ref: 'main'
+              ref: 'main',
+              inputs: {
+                auto_chain: 'true'
+              }
             });
