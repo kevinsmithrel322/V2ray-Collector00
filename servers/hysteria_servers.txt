@@ -1,1 +1,1 @@
-hysteria://198.200.57.142:22335?alpn=h3&amp;auth=github.com/Alvin9999-newpac/fanqiang&amp;downmbps=55&amp;password=github.com%2FAlvin9999-newpac%2Ffanqiang&amp;servername=bing.com&amp;insecure=1&amp;peer=bing.com&amp;upmbps=11#%F0%9F%87%BA%F0%9F%87%B8US_2%7C1.1MB%2Fs%7CGPT%E2%81%BA%7CYT-CN%7CNF%7C1%25
+hysteria://198.200.57.142:22335?alpn=h3&amp;auth_str=github.com%2FAlvin9999-newpac%2Ffanqiang&amp;downmbps=55&amp;obfsParam=&amp;insecure=1&amp;peer=bing.com&amp;upmbps=11&amp;udp=true#%F0%9F%87%BA%F0%9F%87%B8US_1%7C1.0MB%2Fs%7CGPT%E2%81%BA%7CYT-CN%7CNF%7C1%25
